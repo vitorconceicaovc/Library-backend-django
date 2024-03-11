@@ -123,6 +123,11 @@ class BookInstance(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular book instance."""
         return reverse('bookinstance-detail', args=[str(self.id)])
+    
+    @property
+    def is_overdue(self):
+        """Determines if the book is overdue based on due date and current date."""
+        return bool(self.due_back and date.today() > self.due_back)
 
     def __str__(self):
         """String for representing the Model object."""
