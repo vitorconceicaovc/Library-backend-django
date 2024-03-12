@@ -7,7 +7,7 @@ from .models import BookInstance
 from .models import Author
 from django.contrib.auth.models import User
 
-class REST_list_books(APIView):
+class REST_list_books_instances(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = (IsAuthenticated,)
 
@@ -21,7 +21,7 @@ class REST_list_books(APIView):
         # print(user.bookinstance_set.all())
         data=Bookinstance_serializer(books, many=True).data
         return Response({"status":True,"code":"","data":data})
-    
+
 class REST_list_authors(APIView):
 
     def get(self, request, format=None):
@@ -29,3 +29,31 @@ class REST_list_authors(APIView):
         data=Author_serializer(authors, many=True).data
         return Response({"status":True,"code":"","data":data})
     
+class REST_list_books(APIView):
+
+    def get(self, request, format=None):
+        books=Book.objects.all()
+        data=Book_serializer(books, many=True).data
+        return Response({"status":True,"code":"","data":data})
+    
+class REST_book_detail(APIView):
+    def get(self, request, pk, format=None):
+        book = self.get_object(pk)
+        serializer = Book_serializer(book)
+        return Response(serializer.data)
+
+    def get_object(self,pk):
+        return Book.objects.get(id=pk)
+    
+class REST_author_detail(APIView):
+    def get(self, request, pk, format=None):
+        author = self.get_object(pk)
+        serializer = Author_serializer(author)
+        return Response(serializer.data)
+
+    def get_object(self,pk):
+        return Author.objects.get(id=pk)
+    
+
+ 
+ 
