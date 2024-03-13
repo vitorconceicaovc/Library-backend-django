@@ -17,5 +17,9 @@ urlpatterns = [
     path('rest_authors/', REST_list_authors.as_view()),
     path('rest_books/', REST_list_books.as_view()),
     path('rest_book/<int:pk>/', REST_book_detail.as_view()),
-    path('rest_author/<int:pk>/', REST_author_detail.as_view())
+    path('rest_author/<int:pk>/', REST_author_detail.as_view()),
+    path('rest_author_protected/<int:pk>/', REST_author_detail_jwt_auth.as_view()),
+
+    path('api/register/', views.register_user, name='register_user'),
+    path('api/user/<int:pk>/', views.user_detail, name='user_detail'),
 ]

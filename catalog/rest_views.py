@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 class REST_list_books_instances(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = (IsAuthenticated,)
+    permission_classes=()
 
     def get(self, request, format=None):
         # user_id=request.GET.get('id')
@@ -23,6 +24,7 @@ class REST_list_books_instances(APIView):
         return Response({"status":True,"code":"","data":data})
 
 class REST_list_authors(APIView):
+    permission_classes=()
 
     def get(self, request, format=None):
         authors=Author.objects.all()
@@ -30,6 +32,7 @@ class REST_list_authors(APIView):
         return Response({"status":True,"code":"","data":data})
     
 class REST_list_books(APIView):
+    permission_classes=()
 
     def get(self, request, format=None):
         books=Book.objects.all()
@@ -37,6 +40,7 @@ class REST_list_books(APIView):
         return Response({"status":True,"code":"","data":data})
     
 class REST_book_detail(APIView):
+    permission_classes=()
     def get(self, request, pk, format=None):
         book = self.get_object(pk)
         serializer = Book_serializer(book)
@@ -46,6 +50,7 @@ class REST_book_detail(APIView):
         return Book.objects.get(id=pk)
     
 class REST_author_detail(APIView):
+    permission_classes=()
     def get(self, request, pk, format=None):
         author = self.get_object(pk)
         serializer = Author_serializer(author)
@@ -54,6 +59,19 @@ class REST_author_detail(APIView):
     def get_object(self,pk):
         return Author.objects.get(id=pk)
     
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
- 
+class REST_author_detail_jwt_auth(APIView):
+    authentication_classes=[JWTAuthentication,]
+    permission_classes=(IsAuthenticated,)
+
+    def get(self, request, pk, format=None):
+        author = self.get_object(pk)
+        serializer = Author_serializer(author)
+        return Response(serializer.data)
+
+    def get_object(self,pk):
+        return Author.objects.get(id=pk)
  
