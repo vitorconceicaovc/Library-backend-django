@@ -24,6 +24,8 @@ from rest_framework_simplejwt.views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView
+from . import views
+from .views import user_list, user_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,4 +49,8 @@ urlpatterns += [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+    path('api/register/', views.register_user, name='register_user'),
+    path('api/user/<int:pk>/', views.user_detail, name='user_detail'),
+    path('api/users/', views.user_list, name='user_list'),
 ]
