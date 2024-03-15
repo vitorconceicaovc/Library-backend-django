@@ -73,7 +73,6 @@ class REST_author_detail(APIView):
 
     def get_object(self,pk):
         return Author.objects.get(id=pk)
-   
 
 class REST_author_detail_jwt_auth(APIView):
     authentication_classes=[JWTAuthentication,]
@@ -87,3 +86,13 @@ class REST_author_detail_jwt_auth(APIView):
     def get_object(self,pk):
         return Author.objects.get(id=pk)
  
+class RequestsAPIView(APIView):
+    serializer_class = RequestSerializer
+
+    def get(self, request):
+        requests = Requests.objects.all()
+        serializer = RequestSerializer(requests, many=True)
+        return Response(serializer.data)
+    
+    def get_object(self,pk):
+        return Author.objects.get(id=pk)

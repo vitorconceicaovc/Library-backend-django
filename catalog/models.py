@@ -151,3 +151,24 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
+    
+class Requests(models.Model):
+    """Model representing a request."""
+    STATUS_CHOICES = (
+        ('PENDING', 'Pending'),  # Pendente
+        ('FULFILLED', 'Fulfilled'),  # Atendido
+        ('CANCELLED', 'Cancelled'),  # Cancelado
+    )
+
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    request_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+
+    def __str__(self):
+        return f'Request {self.id} - Book: {self.book.title}, User: {self.user.username}, Status: {self.get_status_display()}'

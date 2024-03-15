@@ -24,4 +24,7 @@ urlpatterns = [
 
     # path('api/register/', views.register_user, name='register_user'),
     # path('api/user/<int:pk>/', views.user_detail, name='user_detail'),
+
+    path('requests/', RequestsAPIView.as_view(), name='requests'),
+    path('requests/<int:pk>/', RequestsAPIView.as_view(), name='request-detail'),
 ]

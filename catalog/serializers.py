@@ -33,3 +33,11 @@ class Bookinstance_serializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
+    
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Requests
+        fields = ('__all__')
+
+    def get_url(self, obj):
+        return obj.get_absolute_url()

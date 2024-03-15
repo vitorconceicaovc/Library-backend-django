@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Author, Genre, Book, BookInstance, Language
+from .models import Author, Genre, Book, BookInstance, Language, Requests
 
 # admin.site.register(Book)
 # admin.site.register(Author)
@@ -48,3 +48,9 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('status', 'due_back', 'borrower')
         }),
     )
+
+# Registrar o modelo Requests
+@admin.register(Requests)
+class RequestsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'book', 'user', 'request_date', 'status')
+    list_filter = ('status',)
