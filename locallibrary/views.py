@@ -4,6 +4,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 
 @api_view(['POST'])
 @permission_classes([AllowAny])  # Permitir acesso sem autenticação
@@ -60,3 +63,25 @@ def user_list(request):
     }
     return Response(data)
 
+class REST_self_user(APIView):
+    authentication_classes = [JWTAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = request.user
+        print(f"Rest User: {user}")
+
+
+        response_data = {
+            "status": True,
+            "code": "",
+            "data": {
+                "user_id": user.id,
+                "username": user.username,
+                "first_name" : user.first_name,
+                "last_name" : user.last_name,
+                "email": user.email,
+            },
+            "admin": user.is_superuser
+        }
+        return Response(response_data)

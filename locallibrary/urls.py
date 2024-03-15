@@ -49,6 +49,7 @@ urlpatterns += [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+     path('api/rest_self_user/', views.REST_self_user.as_view()),
 
     path('api/register/', views.register_user, name='register_user'),
     path('api/user/<int:pk>/', views.user_detail, name='user_detail'),
