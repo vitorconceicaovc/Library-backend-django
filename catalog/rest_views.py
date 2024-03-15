@@ -7,6 +7,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import BookInstance
 from .models import Author
 from django.contrib.auth.models import User
+from rest_framework import status
 
 class REST_list_books_instances(APIView):
     #authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -96,3 +97,12 @@ class RequestsAPIView(APIView):
     
     def get_object(self,pk):
         return Author.objects.get(id=pk)
+
+    def post(self, request):
+        serializer = RequestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  
