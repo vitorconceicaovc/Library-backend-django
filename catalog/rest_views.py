@@ -90,7 +90,7 @@ class REST_author_detail_jwt_auth(APIView):
 class RequestsAPIView(APIView):
     serializer_class = RequestSerializer
 
-    def get(self, request):
+    def get(self, request, pk=None):
         requests = Requests.objects.all()
         serializer = RequestSerializer(requests, many=True)
         return Response(serializer.data)
@@ -99,10 +99,32 @@ class RequestsAPIView(APIView):
         return Author.objects.get(id=pk)
 
     def post(self, request):
-        serializer = RequestSerializer(data=request.data)
+        print(request.POST, request.data)
+        data=request.data.copy()
+        data["user"]=request.user.id
+        serializer = RequestSerializer_form(data=data)
+        if serializer.is_valid():
+            obj=serializer.save()
+            return Response(RequestSerializer(instance=obj).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class RequestDetailAPIView(APIView):
+    permission_classes=()
+    def get(self, request, pk, format=None):
+        request = self.get_object(pk)
+        serializer = RequestSerializer(request)
+        return Response(serializer.data)
+
+    def get_object(self,pk):
+        return Requests.objects.get(id=pk)
+    
+    def put(self, request, pk):
+        request_obj = self.get_object(pk)
+        print(request.data, request_obj)
+        resp,msg=request_obj.set_state(request.data['status'])
+        serializer = RequestSerializer(instance=request_obj)
+        return Response({'status':resp, 'msg':msg})
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-  

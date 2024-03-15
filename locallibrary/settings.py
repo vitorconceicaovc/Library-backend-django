@@ -90,8 +90,8 @@ REST_FRAMEWORK = {
 }
 from django.utils import timezone
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timezone.timedelta(seconds=30),
-    "REFRESH_TOKEN_LIFETIME": timezone.timedelta(minutes=1),
+    "ACCESS_TOKEN_LIFETIME": timezone.timedelta(seconds=200),
+    "REFRESH_TOKEN_LIFETIME": timezone.timedelta(minutes=30),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,

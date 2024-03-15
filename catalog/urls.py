@@ -26,5 +26,5 @@ urlpatterns = [
     # path('api/user/<int:pk>/', views.user_detail, name='user_detail'),
 
     path('requests/', RequestsAPIView.as_view(), name='requests'),
-    path('requests/<int:pk>/', RequestsAPIView.as_view(), name='request-detail'),
+    path('requests/<int:pk>/', RequestDetailAPIView.as_view(), name='request-detail'),
 ]

@@ -23,8 +23,6 @@ class Book_serializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
-
- 
 class Bookinstance_serializer(serializers.ModelSerializer):
     book=Book_serializer()
     class Meta:
@@ -33,23 +31,15 @@ class Bookinstance_serializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
-    
+
 class RequestSerializer(serializers.ModelSerializer):
     # Definindo campos customizados para incluir as informações do livro e do usuário
-    book = serializers.SerializerMethodField()
+    book = Book_serializer()
     user = serializers.SerializerMethodField()
 
     class Meta:
         model = Requests
         fields = '__all__'
-
-    def get_book(self, obj):
-        # Obtendo o objeto de livro associado ao pedido
-        book_instance = obj.book
-        # Serializando o objeto de livro usando o BookSerializer
-        book_serializer = Book_serializer(book_instance)
-        # Retornando os dados serializados do livro
-        return book_serializer.data
 
     def get_user(self, obj):
         # Obtendo o objeto de usuário associado ao pedido
@@ -67,3 +57,12 @@ class RequestSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return obj.get_absolute_url()
+        
+class RequestSerializer_form(serializers.ModelSerializer):
+    # Definindo campos customizados para incluir as informações do livro e do usuário
+    #book = serializers.SerializerMethodField()
+    #user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Requests
+        fields = '__all__'
