@@ -171,8 +171,8 @@ class Requests(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
 
     def set_state(self,new_state):
-        self.state=new_state
-        self.save
+        self.status = new_state
+        self.save()
         return True, 'State updated'
     def __str__(self):
         return f'Request {self.id} - Book: {self.book.title if self.book else 'NO BOOK'}, User: {self.user.username if self.user else 'NO USER'}, Status: {self.get_status_display()}'

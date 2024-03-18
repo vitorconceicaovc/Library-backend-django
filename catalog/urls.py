@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('rest_booksinstances/', REST_list_books_instances.as_view()),
     path('rest_self_booksinstances/', REST_list_self_books_instances.as_view()),
+    path('rest_self_requirements/', REST_list_self_requirements.as_view()),
     
     path('rest_authors/', REST_list_authors.as_view()),
     path('rest_books/', REST_list_books.as_view()),

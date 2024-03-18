@@ -128,3 +128,19 @@ class RequestDetailAPIView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class REST_list_self_requirements(APIView):
+    authentication_classes = [JWTAuthentication,SessionAuthentication]
+    permission_classes = (IsAuthenticated,)
+    #permission_classes=()
+
+    def get(self, request, format=None):
+        # user_id=request.GET.get('id')
+        # # print(f'USER ID: {user_id}')
+        user=request.user
+        print(user)
+        requirements=Requests.objects.filter(user=user)
+        # print(request.user, request.user.is_authenticated, request.user.is_superuser)
+        # print(user.bookinstance_set.all())
+        data=RequestSerializer(requirements, many=True).data
+        return Response({"status":True,"code":"","data":data,"admin":request.user.is_superuser})
